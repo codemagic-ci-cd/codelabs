@@ -1,0 +1,192 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Publish your first Flutter app to the AppStore</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="your-first-flutter-app-to-appstore"
+                  title="Publish your first Flutter app to the AppStore"
+                  environment="web"
+                  feedback-link="https://github.com/codemagic-ci-cd/????/issues">
+    
+      <google-codelab-step label="Introduction" duration="0">
+        <p><strong>Last Updated:</strong> 2023-05-19</p>
+<p>In this tutorial, you will be going through all the steps necessary to build, sign and deploy a Flutter app to the Apple App Store.</p>
+<h2 is-upgraded><strong>What you&#39;ll build</strong></h2>
+<ul>
+<li>A basic new Flutter app </li>
+<li>Create a single workflow project for it on Codemagic</li>
+<li>Signed IPA file that can be installed on devices directly, via Testflight and submitted for review to the Apple App Store.</li>
+</ul>
+<aside class="warning"><p><strong>Note:</strong> To simplify this tutorial, and explain the fundamentals of the process of publishing your first Flutter app to the App Store with CI/CD, we will use Codemagic&#39;s Workflow Editor, though you can switch to using YAML for your projects workflow configuration afterwards if you wish.</p>
+</aside>
+<h2 class="checklist" is-upgraded><strong>What you&#39;ll learn</strong></h2>
+<ul class="checklist">
+<li>How to create a new Flutter app project on Codemagic</li>
+<li>How to setup an account on Apple App Store connect</li>
+<li>How to build and sign your iOS app</li>
+<li>How to deploy your app to Apple TestFlight and the Appstore</li>
+</ul>
+<h2 is-upgraded><strong>What you&#39;ll need</strong></h2>
+<ul>
+<li>The Flutter SDK installed on a Windows, Linux or MacOS computer.</li>
+<li>A  <strong><em>PAID</em></strong> Apple Developer account</li>
+<li>A GitHub (or GitLab or Bitbucket) account</li>
+<li>A Codemagic account</li>
+<li>A iOS device</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Getting set up" duration="0">
+        <p>If you don&#39;t yet have an account with a Git provider, you can create <a href="https://github.com/signup" target="_blank">a new one with GitHub here</a>.</p>
+<p>If you don&#39;t yet have a <strong>PAID</strong> Apple Developer account, you can <a href="https://developer.apple.com/programs/enroll/" target="_blank">begin the process of creating a new one here</a>. Note that you will need to provide Apple with a number of pieces of information and pay (as of the time of this writing) $99USD per year for your account (or the equivalent for your country). Once you get to the end of the process and see a screen like this:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/65c9ba1a02a555a9.png"></p>
+<p>you are almost finished with the process.</p>
+<p>Confusingly, Apple splits the functionality required to manage your developer and app information across both the Apple Developer website and the App Store Connect website, and the processes and user interface on those sites are often convoluted and confusing to newcomers, so as much as possible, this tutorial will make use of Codemagic&#39;s functionality to keep to an absolute minimum the interactions required with both those sites.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Your Flutter app" duration="0">
+        <p>In order to publish your app to the App Store, you will first need an app! </p>
+<p>For the purposes of this tutorial, we will use a Flutter app that is closely based on the &#34;Counter app&#34; that is created for you when you run Flutters <code>create</code> command.</p>
+<p>You can do that now:</p>
+<pre><code>flutter create classic_counter</code></pre>
+<h2 is-upgraded><strong>Naming your app</strong></h2>
+<p>One of the parts to creating our app that will be essential later on in the process of publishing it on TestFlight and the App Store is to create a unique identifier for it. On Apple platforms, this identifier is the <strong><em>Bundle ID</em></strong>.</p>
+<aside class="warning"><p><strong>Note:</strong> The Bundle ID must be <strong><em>unique</em></strong>, so make sure you pick a ID for your project that will be unique to it and not use the one used in examples here or that is created in the default Flutter app scaffold for you with the create command! A good recommendation is to use a reverse domain name, so if we have <code>codemagic.io</code> then we would use as the Bundle ID: <code>io.codemagic.classicCounter</code> for example.</p>
+</aside>
+<p>Per the instructions in the <a href="https://docs.flutter.dev/deployment/ios#register-a-bundle-id" target="_blank">Flutter documentation</a>, you will first need to go to the Apple Developer site, login and begin the process of creating a new app identifier:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/a6e6eb33ea090d7b.png"></p>
+<p>Subsequent steps in the process will ask you to choose the identifier type:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/1d2f04611656800b.png"></p>
+<p>and finally enter your chosen Bundle ID:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/f3860888fd5016d0.png"></p>
+<p>Once you have completed all the steps in creating the app identifier, you should see it listed under your Apple Developer account under the <code>Identifiers</code> section:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/d67f319fd183582.png"></p>
+<p>You now need to update your Flutter app code to use the Bundle ID you have chosen. The easiest way to do this is using XCode and you can follow the instructions for how to do that from <a href="https://docs.flutter.dev/deployment/ios#review-xcode-project-settings" target="_blank">the Flutter documentation</a>.</p>
+<p>Now that you have updated your app, you will need to add it to a Git repository and push that repository to a Git hosting provider (eg. GitHub) <strong><em>after</em></strong> you have created a new repository with the hosting provider:</p>
+<pre><code>cd classic_counter
+git init .
+git commit -a -m &#34;app scaffold&#34;
+git add remote origin &lt;git-hosting-provider-url&gt;
+git push origin main</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Building your iOS app on Codemagic" duration="0">
+        <p>You will start by initially building your app for iOS <em>without</em> code signing on Codemagic. </p>
+<p>To setup your app on Codemagic you need to create the project by connecting a Git hosting provider (eg. GitHub):</p>
+<p class="image-container"><img style="width: 624.00px" src="img/b570fd1c91941b08.png"></p>
+<p>Then select a repository and the Flutter project type from there:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/7532d118d39a0aa8.png"></p>
+<p>You then need to configure a few settings for your new app project on Codemagic. First check that only iOS is selected as the platform:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/f38da4d8bd06730.png"></p>
+<p>Then that the versions are set to <code>Stable Channel</code>, <code>Latest XCode</code> and <code>default Cocoapods</code>:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/23f73dab9609a4d4.png"></p>
+<p>And that the build <code>Mode</code> is set to <code>Debug</code>:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/49d644fc5f5b357b.png"></p>
+<p>and then you can then start the your first build by clicking on the <code>Start new build</code> button:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/e025ea86cc445862.png"></p>
+<p>Once your build successfully completes, you will have an <strong>un-signed</strong> artifact that you will be able to run <em>only</em> on the iOS Simulator.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Signing your iOS app on Codemagic" duration="0">
+        <p>Codemagic supports both &#34;automatic&#34; and &#34;manual&#34; processes to code sign you app. We will only describe using automatic code signing in this tutorial as it is by far the easier process, especially for newcomers to iOS code signing.</p>
+<h2 is-upgraded><strong>What is code signing?</strong></h2>
+<p>But what is code signing for apps in the first place? </p>
+<p>In general terms, code signing is a cryptographic process by which certificates, which themselves are made up of corresponding public and private keys, can be used to create a &#34;hash&#34; value of some data (eg. the executable code and resources that make up an app). The  private key is used in such a way that we can later use the public key to confirm that only someone possessing the private key could have created (calculated) that hash value for the given app.</p>
+<p>In the context of Apple and iOS apps, code-signing is the process by which Apple ensures that <a href="https://developer.apple.com/documentation/technotes/tn3125-inside-code-signing-provisioning-profiles#Provisioning-profile-fundamentals" target="_blank">only apps that it has explicitly authorized are able to be executed on Apple platforms such as iOS devices</a>. The way this is achieved is through the use of <strong>provisioning profiles</strong>. Provisioning profiles are files that can only be [created by the Apple Developer website which specify for an app things such as who can sign the app, where those apps can run and what the apps are entitled to do by storing information such as the certificate that can be used to sign the app, the apps unique identifier and other app metadata such as the unique IDs of the devices the app is allowed to run on. </p>
+<p>The reason that only the Apple Developer website is able to create provisioning profiles is that the profiles <em>themselves</em> are signed by Apple, using a certificate they hold. </p>
+<p>As you might be able to tell from the above, the Provisioning Profile lies at the heart of the code signing process on iOS (and in fact all Apple platforms) and much more details about them can be found at in the <a href="https://developer.apple.com/documentation/technotes/tn3125-inside-code-signing-provisioning-profiles" target="_blank">Apple technote on the subject</a>.</p>
+<p>Luckily for the purposes of this tutorial, most of the details of dealing with obtaining, managing and using Provisioning profiles can be handled by Codemagic via the App Store Connect API. But in order to allow Codemagic to do so on behalf of your app, you first need to obtain a App Store Connect API <strong>key</strong>. The process to do so is covered in <a href="https://docs.codemagic.io/flutter-code-signing/ios-code-signing/#step-1-creating-an-app-store-api-key-for-codemagic" target="_blank">this section of the Codemagic documentation</a>. Once you have obtained an API key, you will need to enter it, along with the <strong><code>Issuer ID</code></strong> and <strong><code>Key ID</code></strong> both of which can be found on the App Store Connect website:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/4250335c4af2b337.png"></p>
+<p>and then add them into your team/account section in the Codemagic webapp:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/e56038fa60a5734c.png"></p>
+<p class="image-container"><img style="width: 624.00px" src="img/e352babb6b569dfb.png"></p>
+<p>If you prefer to a see a demonstration, the above process of how to obtain and use the API key <a href="https://www.youtube.com/watch?v=aBDx6BKFXIA" target="_blank">is covered in this video</a>.</p>
+<h3 is-upgraded><strong>Registering your test devices</strong></h3>
+<p>You will want to test your app on at least one actual iOS device, so you will need to register that device on your Apple Developer account <strong>prior</strong> to building your first <strong>signed</strong> iOS artifact. </p>
+<p>To add your devices to your profile, you will need to go to the <code>Devices</code> section of the Apple Developer web console and click on the plus button:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/ae4c520e5ae2cbb1.png"></p>
+<p>Specific instructions on how to obtain the required UUID of each of your iOS devices can be found <a href="https://developer.apple.com/documentation/xcode/distributing-your-app-to-registered-devices#Collect-device-identifiers-iOS-iPadOS-tvOS-watchOS" target="_blank">in the Apple developer documentation</a>.</p>
+<p>In your app workflow editor configuration, you will need to go to the Distribution section and make sure that the code signing method is set to <code>Automatic</code> and that the <code>App Store Connect API key</code> and <code>Bundle Identifier</code> match those that you set up in the previous parts of this step:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/317795e2c5d5b51b.png"></p>
+<p>Now that you have done all the required preparation, you can start a new build of your app on Codemagic using the start new build button as you did previously and once it completes successfully, you will have a <strong>signed</strong> artifact that you can download and install to your iOS device: </p>
+<p class="image-container"><img style="width: 624.00px" src="img/c9c19115a16f8c8c.png"></p>
+<aside class="warning"><p><strong>Note: </strong>Codemagic provides a very handy feature, where by clicking on the little QR code icon next to the IPA artifact file name you will get a QR code with the download link to the file, very handy to quickly download and install it with your iPhone or iPad.</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Uploading your app to Testflight" duration="0">
+        <p>Now that you have a working signed build, the next step is to upload it to Testflight to make it more easily available to others to install and test your app. </p>
+<p>To set up uploading to Testflight you will need to again go to the <code>Distribution</code> section of your apps workflow editor in Codemagic, but this time open the <code>App Store Connect</code> instead of the <code>iOS code signing</code> subsection:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/a14e4906c3d0bc4f.png"></p>
+<p>In that section you will need to ensure that both the Enable App Store Connect publishing and Submit to TestFlight beta review items are enabled:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/ac68f5b08c27084c.png"></p>
+<p>Once the build workflow successfully completes, if you look in App Store Connect website, you should now see your app build listed there, under the <code>TestFlight</code> tab:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/50885fe759b82c1e.png"></p>
+<p>On your iOS device, you will need to open the App Store app and install the TestFlight app in order to be able to install your app.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Publishing your app to the App Store" duration="0">
+        <p>Finally, after you have iterated on making and testing changes to your app and you are ready to publish your app to the public on the App Store, the final step of submitting your app for review to Apple just requires you to run your build on Codemagic again, but this time just enabling the option under the Codemagic  <code>App Store Connect</code> subsection to submit the app for review:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/9fb89e03e152665e.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Next Steps" duration="0">
+        <p>Congratulations! </p>
+<p>You have now published your first Flutter app to the Apple App Store!</p>
+<h2 class="checklist" is-upgraded><strong>What we&#39;ve covered</strong></h2>
+<p>✅ Created a new Flutter app project on Codemagic</p>
+<p>✅ Setup an account on Apple App Store connect</p>
+<p>✅ Built and signed your iOS app</p>
+<p>✅ Deployed your app to Apple TestFlight and the App Store</p>
+<h2 is-upgraded><strong>What next?</strong></h2>
+<ul>
+<li>Convert your project to using YAML to allow you to manage your workflow configuration within Git</li>
+<li>Add more platforms to your project on Codemagic such as Android, MacOS, Linux, Windows and Web to make your app available to users on all those platforms</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>

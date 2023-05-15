@@ -1,0 +1,26 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2023-05-10T07:56:36Z",
+  "id": "your-first-flutter-app-to-appstore",
+  "duration": 0,
+  "title": "Publish your first Flutter app to the AppStore",
+  "authors": "Maksim Lin",
+  "summary": "In this tutorial, you will be going through all the steps necessary to build, sign and deploy a Flutter app to the Apple Appstore.",
+  "source": "1fDRVc23lN8wi65TuxrLLhIGNG1huqCi7fHnv_9vD-oc",
+  "theme": "web",
+  "status": [
+    "draft"
+  ],
+  "category": [
+    "web"
+  ],
+  "tags": [
+    "codemagic",
+    "flutter"
+  ],
+  "feedback": "https://github.com/codemagic-ci-cd/????/issues",
+  "url": "your-first-flutter-app-to-appstore"
+}
