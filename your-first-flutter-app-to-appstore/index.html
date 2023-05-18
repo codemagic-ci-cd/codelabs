@@ -21,7 +21,9 @@
   <script defer data-domain="labs.codemagic.io" src="https://plausible.io/js/script.js"></script>
 </head>
 <body>
-  <google-codelab id="your-first-flutter-app-to-appstore"
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="your-first-flutter-app-to-appstore"
                   title="Publish your first Flutter app to the App Store"
                   environment="web"
                   feedback-link="https://github.com/codemagic-ci-cd/codelabs/issues">
@@ -91,7 +93,7 @@ Tools • Dart 3.0.0 • DevTools 2.23.1</code></pre>
 <p class="image-container"><img style="width: 624.00px" src="img/f3860888fd5016d0.png"></p>
 <p>Once you have completed all the steps in creating the app identifier, you should see it listed under your Apple Developer account under the <code>Identifiers</code> section:</p>
 <p class="image-container"><img style="width: 624.00px" src="img/d67f319fd183582.png"></p>
-<p>You now need to update your Flutter app code to use the Bundle ID you have chosen. The easiest way to do this is using XCode and you can follow the instructions for how to do that from <a href="https://docs.flutter.dev/deployment/ios#review-xcode-project-settings" target="_blank">the Flutter documentation</a>.</p>
+<p>You now need to update your Flutter app code to use the Bundle ID you have chosen. The easiest way to do this is using Xcode and you can follow the instructions for how to do that from <a href="https://docs.flutter.dev/deployment/ios#review-xcode-project-settings" target="_blank">the Flutter documentation</a>.</p>
 <p>Now that you have updated your app, you will need to add it to a Git repository and push that repository to a Git hosting provider (eg. GitHub) <strong><em>after</em></strong> you have created a new repository with the hosting provider:</p>
 <pre><code>cd classic_counter
 git init .
@@ -110,11 +112,15 @@ git push origin main</code></pre>
 <p class="image-container"><img style="width: 624.00px" src="img/7532d118d39a0aa8.png"></p>
 <p>You then need to configure a few settings for your new app project on Codemagic. First check that only iOS is selected as the platform:</p>
 <p class="image-container"><img style="width: 624.00px" src="img/f38da4d8bd06730.png"></p>
-<p>Then that the versions are set to <code>Stable Channel</code>, <code>Latest XCode</code> and <code>default Cocoapods</code>:</p>
+<p>Then that the versions are set to <code>Stable Channel</code>, <code>Latest Xcode</code> and <code>default Cocoapods</code>:</p>
 <p class="image-container"><img style="width: 624.00px" src="img/23f73dab9609a4d4.png"></p>
 <p>And that the build <code>Mode</code> is set to <code>Debug</code>:</p>
 <p class="image-container"><img style="width: 624.00px" src="img/49d644fc5f5b357b.png"></p>
-<p>and then you can then start the your first build by clicking on the <code>Start new build</code> button:</p>
+<p>Once you have made those changes to the settings, click Save changes button in the top right hand corner:</p>
+<p class="image-container"><img style="width: 501.00px" src="img/9bed8f7a579608af.png"></p>
+<p>and then you can then start the your first build by clicking on the <code>Start first build</code> button:</p>
+<p class="image-container"><img style="width: 501.00px" src="img/e2cc80076a7bf15e.png"></p>
+<p>After your first build, this button will change to be <code>Start new build</code>:</p>
 <p class="image-container"><img style="width: 624.00px" src="img/e025ea86cc445862.png"></p>
 <p>Once your build successfully completes, you will have an <strong>unsigned</strong> artifact that you will be able to run <em>only</em> on the iOS Simulator.</p>
 
@@ -129,7 +135,16 @@ git push origin main</code></pre>
 <p>In the context of Apple and iOS apps, code-signing is the process by which Apple ensures that <a href="https://developer.apple.com/documentation/technotes/tn3125-inside-code-signing-provisioning-profiles#Provisioning-profile-fundamentals" target="_blank">only apps that it has explicitly authorized are able to be executed on Apple platforms such as iOS devices</a>. The way this is achieved is through the use of <strong>provisioning profiles</strong>. Provisioning profiles are files that can only be created by the Apple Developer website which specify for an app things such as who can sign the app, where those apps can run and what the apps are entitled to do by storing information such as the certificate that can be used to sign the app, the apps unique identifier and other app metadata such as the unique IDs of the devices the app is allowed to run on. </p>
 <p>The reason that only the Apple Developer website is able to create provisioning profiles is that the profiles <em>themselves</em> are signed by Apple, using a certificate they hold. </p>
 <p>As you might be able to tell from the above, the Provisioning Profile lies at the heart of the code signing process on iOS (and in fact all Apple platforms) and much more details about them can be found at in the <a href="https://developer.apple.com/documentation/technotes/tn3125-inside-code-signing-provisioning-profiles" target="_blank">Apple technote on the subject</a>.</p>
-<p>Luckily for the purposes of this tutorial, most of the details of dealing with obtaining, managing and using Provisioning profiles can be handled by Codemagic via the App Store Connect API. But in order to allow Codemagic to do so on behalf of your app, you first need to obtain an App Store Connect API <strong>key</strong>. The process to do so is covered in <a href="https://docs.codemagic.io/flutter-code-signing/ios-code-signing/#step-1-creating-an-app-store-api-key-for-codemagic" target="_blank">this section of the Codemagic documentation</a>. Once you have obtained an API key, you will need to enter it, along with the <strong><code>Issuer ID</code></strong> and <strong><code>Key ID</code></strong> both of which can be found on the App Store Connect website:</p>
+<p>An important point to note is that there can (and likely will) be <strong><em>multiple</em></strong> provisioning profiles per each of your apps. For example the Ad-Hoc provisioning profiles are only intended for you to use when you are building your app to distribute to a small number of users (or testers) directly and you whose device UDID&#39;s you would need to add directly into the Apple Developer portal. While the App Store profile is used for uploading your app build to App Store Connect, for distribution via Test Flight or finally via the public App Store itself.</p>
+<p>Luckily for the purposes of this tutorial, most of the details of dealing with obtaining, managing and using Provisioning profiles can be handled by Codemagic via the App Store Connect API. But in order to allow Codemagic to do so on behalf of your app, you first need to obtain an App Store Connect API <strong>key</strong>. The process to do so is:</p>
+<ol type="1" start="1">
+<li>Log in to App Store Connect and navigate to Users and Access &gt; Keys.</li>
+<li>Click on the + sign to generate a new API key.</li>
+<li>Enter the name for the key and select an access level. We recommend choosing App Manager, considering that Developer does not have the required permissions to upload to the store. Read more about Apple Developer Program role permissions here.</li>
+<li>Click Generate.</li>
+<li>As soon as the key is generated, you can see it added to the list of active keys. Click Download API Key to save the private key for later. Note that the key can only be downloaded once.</li>
+</ol>
+<p>This process is also covered in  <a href="https://docs.codemagic.io/flutter-code-signing/ios-code-signing/#step-1-creating-an-app-store-api-key-for-codemagic" target="_blank">this section of the Codemagic documentation</a>.  Once you have obtained an API key, you will need to enter it, along with the <strong><code>Issuer ID</code></strong> and <strong><code>Key ID</code></strong> both of which can be found on the App Store Connect website:</p>
 <p class="image-container"><img style="width: 624.00px" src="img/4250335c4af2b337.png"></p>
 <p>and then add them into your team/account section in the Codemagic webapp:</p>
 <p class="image-container"><img style="width: 624.00px" src="img/e56038fa60a5734c.png"></p>
