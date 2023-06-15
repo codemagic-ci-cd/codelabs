@@ -1,13 +1,13 @@
 workflows:
-    production:
-        name: Deploy to production
-        environment:
-            groups:
-                - aws-production
-                - production
-        scripts:
-            - name: Deploy to production
-              script: |
-                  set -e
-                  aws s3 sync ./your-first-flutter-app-to-appstore s3://labs.codemagic.io --delete --cache-control max-age=31536000,public
-                  aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*'
+  production:
+    name: Deploy to production
+    environment:
+      groups:
+        - aws-production
+        - production
+    scripts:
+      - name: Deploy to production
+        script: |
+          set -e
+          aws s3 sync ./your-first-flutter-app-to-appstore s3://labs.codemagic.io --delete --cache-control max-age=31536000,public
+          aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*'
