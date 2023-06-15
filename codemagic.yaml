@@ -1,0 +1,12 @@
+workflows:
+    production:
+        name: Deploy to production
+        environment:
+            groups:
+                - production
+                - aws-production
+        scripts:
+              script: |
+                  aws s3 sync ./ s3://labs.codemagic.io max-age=31536000,public
+                  aws cloudfront create-invalidation --distribution-id EP0IDLIGXES7G --paths '/*'
+
