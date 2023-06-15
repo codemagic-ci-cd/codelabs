@@ -11,7 +11,6 @@ workflows:
         name: Deploy to production
         environment:
             groups:
-                - production
                 - aws-production
         scripts:
             - *deploy_to_production
