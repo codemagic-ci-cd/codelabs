@@ -5,7 +5,7 @@ workflows:
       groups:
         - aws-production
         - production
-    instance_type: linux
+    instance_type: linux_x2
     scripts:
       - name: Fetch Google Codelab tool
         script: |
