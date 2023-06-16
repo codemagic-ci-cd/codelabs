@@ -17,7 +17,7 @@ workflows:
       - name: Build HTML static site
         script: |
           set -e
-          ./claat export src/your-first-flutter-app-to-appstore/index.md
+          ./claat export -f cm_template.html src/your-first-flutter-app-to-appstore/index.md
 
       - name: Deploy to production
         script: |
