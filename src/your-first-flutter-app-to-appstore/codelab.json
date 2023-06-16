@@ -1,6 +1,6 @@
 {
   "environment": "web",
-  "format": "html",
+  "format": "md",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
   "updated": "2023-05-18T06:58:51Z",
@@ -22,5 +22,5 @@
     "flutter"
   ],
   "feedback": "https://github.com/codemagic-ci-cd/codelabs/issues",
-  "url": "first-flutter-app-to-appstore"
+  "url": "your-first-flutter-app-to-appstore"
 }
