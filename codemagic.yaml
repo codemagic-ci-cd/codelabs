@@ -11,13 +11,13 @@ workflows:
         script: |
           set -e
           # for now just hardcode for Linux on x86_64 for now
-          curl https://github.com/googlecodelabs/tools/releases/download/v2.2.6/claat-linux-amd64 -o claat
-          chmod +x claat
+          wget https://github.com/googlecodelabs/tools/releases/download/v2.2.6/claat-linux-amd64
+          chmod +x claat-linux-amd64
 
       - name: Build HTML static site
         script: |
           set -e
-          ./claat export -f cm_template.html src/your-first-flutter-app-to-appstore/index.md
+          ./claat-linux-amd64 export -f cm_template.html src/your-first-flutter-app-to-appstore/index.md
 
       - name: Deploy to production
         script: |
