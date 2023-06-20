@@ -26,7 +26,7 @@ workflows:
           set -e
           mkdir build
           cd build
-          ./claat-linux-amd64 export -f ../cm_template.html src/your-first-flutter-app-to-appstore/index.md
+          ../claat-linux-amd64 export -f ../cm_template.html ../src/your-first-flutter-app-to-appstore/index.md
           # copy across static assets, eg. top level index.html, site icon etc
           cp ../static/* .
 
