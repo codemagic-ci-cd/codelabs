@@ -24,11 +24,14 @@ workflows:
       - name: Build HTML static site
         script: |
           set -e
-          ./claat-linux-amd64 export -f cm_template.html src/your-first-flutter-app-to-appstore/index.md
+          mkdir build
+          cd build
+          ./claat-linux-amd64 export -f ../cm_template.html src/your-first-flutter-app-to-appstore/index.md
+          # copy across static assets, eg. top level index.html, site icon etc
+          cp ../static/* .
 
       - name: Deploy to production
         script: |
           set -e
-          aws s3 sync ./index.html s3://labs.codemagic.io/index.html --delete --cache-control max-age=31536000,public
-          aws s3 sync ./your-first-flutter-app-to-appstore s3://labs.codemagic.io/your-first-flutter-app-to-appstore --delete --cache-control max-age=31536000,public
+          aws s3 sync build s3://labs.codemagic.io/ --delete --cache-control max-age=31536000,public
           aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*'
