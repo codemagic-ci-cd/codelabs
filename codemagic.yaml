@@ -1,0 +1,37 @@
+workflows:
+  production:
+    name: Deploy to production
+    environment:
+      groups:
+        - aws-production
+        - production
+    instance_type: linux_x2
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: 'main'
+          include: true
+          source: true
+    scripts:
+      - name: Fetch Google Codelab tool
+        script: |
+          set -e
+          # for now just hardcode for Linux on x86_64 for now
+          wget https://github.com/googlecodelabs/tools/releases/download/v2.2.6/claat-linux-amd64
+          chmod +x claat-linux-amd64
+
+      - name: Build HTML static site
+        script: |
+          set -e
+          mkdir build
+          cd build
+          ../claat-linux-amd64 export -f ../cm_template.html ../src/your-first-flutter-app-to-appstore/index.md
+          # copy across static assets, eg. top level index.html, site icon etc
+          cp ../static/* .
+
+      - name: Deploy to production
+        script: |
+          set -e
+          aws s3 sync build s3://labs.codemagic.io/ --delete --cache-control max-age=31536000,public
+          aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*'
