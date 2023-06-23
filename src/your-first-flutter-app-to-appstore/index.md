@@ -15,10 +15,7 @@ duration: 0
 
 [Codelab Feedback](https://github.com/codemagic-ci-cd/codelabs/issues)
 
-
 ## Introduction
-
-
 
 **Last Updated:** 2023-05-19
 
@@ -52,13 +49,11 @@ In this tutorial, you will be going through all the steps necessary to build, si
 
 ## Getting set up
 
-
-
 If you don't yet have an account with a Git provider, you can create  [a new one with GitHub here](https://github.com/signup).
 
 If you don't yet have a **PAID** Apple Developer account, you can  [begin the process of creating a new one here](https://developer.apple.com/programs/enroll/). Note that you will need to provide Apple with a number of pieces of information and pay (as of the time of this writing) $99USD per year for your account (or the equivalent for your country). Once you get to the end of the process and see a screen like this:
 
-<img src="img/65c9ba1a02a555a9.png" alt="65c9ba1a02a555a9.png"  width="624.00" />
+<img src="img/65c9ba1a02a555a9.png" alt="screenshot of Apple developer site showing confirmation to go ahead with purchase of Apple Developer Program yearly membership"  width="624.00" />
 
 you are almost finished with the process.
 
@@ -66,8 +61,6 @@ Confusingly, Apple splits the functionality required to manage your developer an
 
 
 ## Your Flutter app
-
-
 
 In order to publish your app to the App Store, you will first need an app! 
 
@@ -103,33 +96,33 @@ One of the parts to creating our app that will be essential later on in the proc
 
 Per the instructions in the  [Flutter documentation](https://docs.flutter.dev/deployment/ios#register-a-bundle-id), you will first need to go to the Apple Developer site, login and begin the process of creating a new app identifier:
 
-<img src="img/a6e6eb33ea090d7b.png" alt="a6e6eb33ea090d7b.png"  width="624.00" />
+<img src="img/a6e6eb33ea090d7b.png" alt="screenshot of certificates, identifiers & profiles screen of Apple developer website"  width="624.00" />
 
 Subsequent steps in the process will ask you to choose the identifier type:
 
-<img src="img/1d2f04611656800b.png" alt="1d2f04611656800b.png"  width="624.00" />
+<img src="img/1d2f04611656800b.png" alt="screenshot of register new identifier from Apple developer website"  width="624.00" />
 
 and finally enter your chosen Bundle ID:
 
-<img src="img/f3860888fd5016d0.png" alt="f3860888fd5016d0.png"  width="624.00" />
+<img src="img/f3860888fd5016d0.png" alt="screenshot of register an app section from Apple developer website"  width="624.00" />
 
 Once you have completed all the steps in creating the app identifier, you should see it listed under your Apple Developer account under the `Identifiers` section:
 
-<img src="img/d67f319fd183582.png" alt="d67f319fd183582.png"  width="624.00" />
+<img src="img/d67f319fd183582.png" alt="screenshot of certificates, identifiers & profiles screen of Apple developer website"  width="624.00" />
 
 Now we need to follow the  [next process of creating an application record on App Store Connect](https://docs.flutter.dev/deployment/ios#create-an-application-record-on-app-store-connect).
 
 First select "My Apps":
 
-<img src="img/56ae3953fb2dcee0.png" alt="56ae3953fb2dcee0.png"  width="624.00" />
+<img src="img/56ae3953fb2dcee0.png" alt="screenshot of My apps section of Apple appstore connect website"  width="624.00" />
 
 Then click on the plus icon to add a new entry:
 
-<img src="img/b7df48b0ad999dd8.png" alt="b7df48b0ad999dd8.png"  width="624.00" />
+<img src="img/b7df48b0ad999dd8.png" alt="screenshot of arrow pointing to plus button of My apps section of Apple appstore connect website"  width="624.00" />
 
-Select "New App Bundle" and then fill in the form shown:
+Select "New App" from the drop down and then fill in the form shown:
 
-<img src="img/31203a38e6b4e7e9.png" alt="31203a38e6b4e7e9.png"  width="624.00" />
+<img src="img/31203a38e6b4e7e9.png" alt="screenshot of new app form of Apple appstore connect website"  width="624.00" />
 
 Note that in the "Bundle ID" drop down you should see and be able to select the bundle id you created previously in the Apple Developer website. 
 
@@ -154,35 +147,35 @@ You will start by initially building your app for iOS *without* code signing on 
 
 To setup your app on Codemagic you need to create the project by connecting a Git hosting provider (eg. GitHub):
 
-<img src="img/b570fd1c91941b08.png" alt="b570fd1c91941b08.png"  width="624.00" />
+<img src="img/b570fd1c91941b08.png" alt="screenshot of connect repository screen of Codemagic website"  width="624.00" />
 
 Then select a repository and the Flutter project type from there:
 
-<img src="img/7532d118d39a0aa8.png" alt="7532d118d39a0aa8.png"  width="624.00" />
+<img src="img/7532d118d39a0aa8.png" alt="screenshot of setup application screen of Codemagic website"  width="624.00" />
 
 You then need to configure a few settings for your new app project on Codemagic. First check that only iOS is selected as the platform:
 
-<img src="img/f38da4d8bd06730.png" alt="f38da4d8bd06730.png"  width="624.00" />
+<img src="img/f38da4d8bd06730.png" alt="enlarged screenshot of Build for platforms config section of Codemagic website"  width="624.00" />
 
 Then that the versions are set to `Stable Channel`, `Latest Xcode` and `default Cocoapods`:
 
-<img src="img/23f73dab9609a4d4.png" alt="23f73dab9609a4d4.png"  width="624.00" />
+<img src="img/23f73dab9609a4d4.png" alt="enlarged screenshot of tool versions config section of Codemagic website"  width="624.00" />
 
 And that the build `Mode` is set to `Debug`:
 
-<img src="img/49d644fc5f5b357b.png" alt="49d644fc5f5b357b.png"  width="624.00" />
+<img src="img/49d644fc5f5b357b.png" alt="enlarged screenshot of Mode config section of Codemagic website"  width="624.00" />
 
 Once you have made those changes to the settings, click Save changes button in the top right hand corner:
 
-<img src="img/9bed8f7a579608af.png" alt="9bed8f7a579608af.png"  width="501.00" />
+<img src="img/9bed8f7a579608af.png" alt="enlarged screenshot of tool Save button on Codemagic website"  width="501.00" />
 
 and then you can then start the your first build by clicking on the `Start first build` button:
 
-<img src="img/e2cc80076a7bf15e.png" alt="e2cc80076a7bf15e.png"  width="501.00" />
+<img src="img/e2cc80076a7bf15e.png" alt="enlarged screenshot of tool 'start your first build' button on Codemagic website"  width="501.00" />
 
 After your first build, this button will change to be `Start new build`:
 
-<img src="img/e025ea86cc445862.png" alt="e025ea86cc445862.png"  width="624.00" />
+<img src="img/e025ea86cc445862.png" alt="enlarged screenshot of tool 'start new build' button on Codemagic website"  width="624.00" />
 
 Once your build successfully completes, you will have an **unsigned** artifact that you will be able to run *only* on the iOS Simulator.
 
@@ -217,13 +210,13 @@ Luckily for the purposes of this tutorial, most of the details of dealing with o
 
 This process is also covered in   [this section of the Codemagic documentation](https://docs.codemagic.io/flutter-code-signing/ios-code-signing/#step-1-creating-an-app-store-api-key-for-codemagic).  Once you have obtained an API key, you will need to enter it, along with the **`Issuer ID`** and **`Key ID`** both of which can be found on the App Store Connect website:
 
-<img src="img/4250335c4af2b337.png" alt="4250335c4af2b337.png"  width="624.00" />
+<img src="img/4250335c4af2b337.png" alt="screenshot of App Store Connect API section of apple appstore connect website"  width="624.00" />
 
 and then add them into your team/account section in the Codemagic webapp:
 
-<img src="img/e56038fa60a5734c.png" alt="e56038fa60a5734c.png"  width="624.00" />
+<img src="img/e56038fa60a5734c.png" alt="screenshot of tool Teams section of the Codemagic website"  width="624.00" />
 
-<img src="img/e352babb6b569dfb.png" alt="e352babb6b569dfb.png"  width="624.00" />
+<img src="img/e352babb6b569dfb.png" alt="enlarged screenshot of tool Teams config section on Codemagic website"  width="624.00" />
 
 If you prefer to a see a demonstration, the above process of how to obtain and use the API key  [is covered in this video](https://www.youtube.com/watch?v=aBDx6BKFXIA).
 
@@ -233,17 +226,17 @@ You will want to test your app on at least one actual iOS device, so you will ne
 
 To add your devices to your profile, you will need to go to the `Devices` section of the Apple Developer web console and click on the plus button:
 
-<img src="img/ae4c520e5ae2cbb1.png" alt="ae4c520e5ae2cbb1.png"  width="624.00" />
+<img src="img/ae4c520e5ae2cbb1.png" alt="enlarged screenshot of Devices plus button from Certificates, Indentifiers & Profiles section of Apple developer website"  width="624.00" />
 
 Specific instructions on how to obtain the required UUID of each of your iOS devices can be found  [in the Apple developer documentation](https://developer.apple.com/documentation/xcode/distributing-your-app-to-registered-devices#Collect-device-identifiers-iOS-iPadOS-tvOS-watchOS).
 
 Now, moving back to the ***Codemagic web interface***: in your app workflow editor configuration, you will need to go to the Distribution section and make sure that the code signing method is set to `Automatic` and that the `App Store Connect API key` and `Bundle Identifier` match those that you set up in the previous parts of this step:
 
-<img src="img/317795e2c5d5b51b.png" alt="317795e2c5d5b51b.png"  width="624.00" />
+<img src="img/317795e2c5d5b51b.png" alt="enlarged screenshot with red arrow pointing to 'Select code  signing method' on Codemagic website"  width="624.00" />
 
 Now that you have done all the required preparation, you can start a new build of your app on Codemagic using the start new build button as you did previously and once it completes successfully, you will have a **signed** artifact that you can download and install to your iOS device: 
 
-<img src="img/9722d6d028b7de23.png" alt="9722d6d028b7de23.png"  width="624.00" />
+<img src="img/9722d6d028b7de23.png" alt="screenshot of Codemagic website with red arrow pointing to link on the page to generated IPA file link"  width="624.00" />
 
 > aside negative
 > 
@@ -258,15 +251,15 @@ Now that you have a working signed build, the next step is to upload it to TestF
 
 To set up uploading to TestFlight you will need to again go to the `Distribution` section of your apps workflow editor in Codemagic, but this time open the `App Store Connect` instead of the `iOS code signing` subsection:
 
-<img src="img/a14e4906c3d0bc4f.png" alt="a14e4906c3d0bc4f.png"  width="624.00" />
+<img src="img/a14e4906c3d0bc4f.png" alt="screenshot with red arrow pointing to App Store Connect [enabled] section of Codemagic website"  width="624.00" />
 
 In that section you will need to ensure that both the Enable App Store Connect publishing and Submit to TestFlight beta review items are enabled:
 
-<img src="img/ac68f5b08c27084c.png" alt="ac68f5b08c27084c.png"  width="624.00" />
+<img src="img/ac68f5b08c27084c.png" alt="screenshot with red arrow pointing to 'Enable App Store Connect publishing' checkbox and another red arrow pointing to 'Submit to Testflight beta review` checkbox of the Codemagic website"  width="624.00" />
 
 Once the build workflow successfully completes, if you look in App Store Connect website, you should now see your app build listed there, under the `TestFlight` tab:
 
-<img src="img/50885fe759b82c1e.png" alt="50885fe759b82c1e.png"  width="624.00" />
+<img src="img/50885fe759b82c1e.png" alt="screenshot of the Apple App store connect website showing the app listed in the iOS builds section of the website"  width="624.00" />
 
 On your iOS device, you will need to open the App Store app and install the TestFlight app in order to be able to install your app.
 
@@ -277,12 +270,10 @@ On your iOS device, you will need to open the App Store app and install the Test
 
 Finally, after you have iterated on making and testing changes to your app and you are ready to publish your app to the public on the App Store, the final step of submitting your app for review to Apple just requires you to run your build on Codemagic again, but this time just enabling the option under the Codemagic  `App Store Connect` subsection to submit the app for review:
 
-<img src="img/9fb89e03e152665e.png" alt="9fb89e03e152665e.png"  width="624.00" />
+<img src="img/9fb89e03e152665e.png" alt="screenshot of Codemagic website with red arrow pointing to the 'Submit to App Store review' checkbox"  width="624.00" />
 
 
 ## Next Steps
-
-
 
 Congratulations! 
 
