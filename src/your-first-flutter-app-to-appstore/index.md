@@ -127,7 +127,7 @@ Then click on the plus icon to add a new entry:
 
 <img src="img/b7df48b0ad999dd8.png" alt="b7df48b0ad999dd8.png"  width="624.00" />
 
-Select "New App Bundle" and then fill in the form shown:
+Select "New App" from the drop down and then fill in the form shown:
 
 <img src="img/31203a38e6b4e7e9.png" alt="31203a38e6b4e7e9.png"  width="624.00" />
 
