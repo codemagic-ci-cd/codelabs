@@ -40,7 +40,7 @@ In this tutorial, you will be going through all the steps necessary to build, si
 
 ### **What you'll need**
 
-* The Flutter SDK installed on your Windows, Linux or macOS computer.
+* The Flutter SDK installed on your Windows, Linux or macOS computer
 * A  ***PAID*** Apple Developer account
 * A GitHub (or GitLab or Bitbucket) account
 * A Codemagic account
@@ -92,7 +92,7 @@ One of the parts to creating our app that will be essential later on in the proc
 
 > aside negative
 > 
-> **Note:** The Bundle ID must be ***unique***, so make sure you pick a ID for your project that will be unique to it and not use the one used in examples here or that is created in the default Flutter app scaffold for you with the create command! A good recommendation is to use a reverse domain name, so if we have `codemagic.io` then we would use as the Bundle ID: `io.codemagic.classicCounter` for example.
+> **Note:** The Bundle ID must be ***unique***, so make sure you pick an ID for your project that will be unique to it and not use the one used in examples here or that is created in the default Flutter app scaffold for you with the create command! A good recommendation is to use a reverse domain name, so if we have `codemagic.io` then we would use as the Bundle ID: `io.codemagic.classicCounter` for example.
 
 Per the instructions in the  [Flutter documentation](https://docs.flutter.dev/deployment/ios#register-a-bundle-id), you will first need to go to the Apple Developer site, login and begin the process of creating a new app identifier:
 
@@ -169,7 +169,7 @@ Once you have made those changes to the settings, click Save changes button in t
 
 <img src="img/9bed8f7a579608af.png" alt="enlarged screenshot of tool Save button on Codemagic website"  width="501.00" />
 
-and then you can then start the your first build by clicking on the `Start first build` button:
+and then you can start your first build by clicking on the `Start first build` button:
 
 <img src="img/e2cc80076a7bf15e.png" alt="enlarged screenshot of tool 'start your first build' button on Codemagic website"  width="501.00" />
 
@@ -204,7 +204,7 @@ Luckily for the purposes of this tutorial, most of the details of dealing with o
 
 1. Log in to App Store Connect and navigate to Users and Access &gt; Keys.
 2. Click on the + sign to generate a new API key.
-3. Enter the name for the key and select an access level. We recommend choosing App Manager, considering that Developer does not have the required permissions to upload to the store. Read more about Apple Developer Program role permissions here.
+3. Enter the name for the key and select an access level. We recommend choosing App Manager, considering that Developer does not have the required permissions to upload to the store. Read more about Apple Developer Program role permissions [here](https://developer.apple.com/help/app-store-connect/reference/role-permissions/).
 4. Click Generate.
 5. As soon as the key is generated, you can see it added to the list of active keys. Click Download API Key to save the private key for later. Note that the key can only be downloaded once.
 
