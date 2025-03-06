@@ -121,7 +121,7 @@ Select "New App" from the drop down and then fill in the form shown:
 
 <img src="img/31203a38e6b4e7e9.png" alt="screenshot of new app form of Apple appstore connect website"  width="624.00" />
 
-Note that in the "Bundle ID" drop down you should see and be able to select the bundle id you created previously in the Apple Developer website. 
+Note that in the "Bundle ID" drop down you should see and be able to select the Bundle ID you created previously in the Apple Developer website. 
 
 You now need to update your Flutter app code to use the Bundle ID you have chosen. The easiest way to do this is by using Xcode. You can follow the instructions for this in [the Flutter documentation](https://docs.flutter.dev/deployment/ios#review-xcode-project-settings).
 
