@@ -217,7 +217,7 @@ However, to allow Codemagic to manage this on behalf of your app, you first need
 2. Click on the "+" sign on the **Team Keys** tab to generate a new API key.
 3. Enter a name for the key and select an access level.
 * We recommend choosing App Manager, as the Developer role does not have the required permissions to upload to the store. Read more about Apple Developer Program role permissions [here](https://developer.apple.com/help/app-store-connect/reference/role-permissions/).
-4. Click Generate. Once the key is generated, it will be added to the list of active keys.
+4. Click "Generate". Once the key is generated, it will be added to the list of active keys.
 5. Click Download API Key to save the private key for later use. Note: The key can only be downloaded once.
 
 This process is also covered in [this section of the Codemagic documentation](https://docs.codemagic.io/flutter-code-signing/ios-code-signing/#step-1-creating-an-app-store-api-key-for-codemagic).
